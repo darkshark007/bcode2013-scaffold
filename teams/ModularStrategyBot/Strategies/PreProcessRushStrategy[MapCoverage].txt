@@ -1,0 +1,54 @@
+[ ]  Akviligjuaq
+[ ]  arraydotutil
+[ ]  backdoor
+[ ]  basetrade
+[ ]  beachhead
+[ ]  BlastRadius
+[ ]  bloodbath
+[ ]  boxes
+[ ]  britain
+[ ]  Cairo
+[ ]  caves
+[ ]  Chicago
+[ ]  choices
+[ ]  Cyclonical
+[ ]  Dijbouti
+[ ]  egypt
+[ ]  five
+[ ]  fives
+[ ]  fused
+[X]  Highway
+[ ]  huge
+[X]  Indianapolis
+[ ]  Istanbul
+[ ]  jacket
+[ ]  Kiev
+[ ]  kleenex
+[ ]  lamppost
+[ ]  lilforts
+[ ]  lines
+[ ]  lol
+[ ]  maze1
+[X]  NorthStar
+[ ]  prison
+[ ]  Quarry
+[ ]  questionable
+[ ]  rapunzel
+[ ]  risky
+[ ]  rorschach
+[ ]  Runway
+[ ]  Seoul
+[X]  Shanghai
+[X]  Shard
+[ ]  simple
+[ ]  smiley
+[ ]  speakers
+[ ]  spiral
+[ ]  squares
+[ ]  thingsthatcouldgowrong
+[X]  Ulaanbaatar
+[ ]  uncorrelated
+[ ]  Wellington
+[X]  WorldSeed
+[ ]  zigzag
+[ ]  zugzwang
