@@ -304,7 +304,7 @@ public class RushHealAndExpandStrategy extends Strategy {
 								// Check to see if i'm at my target
 								if ( myLoc.equals(myTarget) ) {
 									// If so, build
-									int resSave = (rc.readBroadcast(BC_CONST_COUNT_DEF)+rc.readBroadcast(BC_CONST_COUNT_GEN))*3;
+									//int resSave = (rc.readBroadcast(BC_CONST_COUNT_DEF)+rc.readBroadcast(BC_CONST_COUNT_GEN))*3;
 									//while ( (rc.senseCaptureCost()+resSave) > rc.getTeamPower() ) {
 									//	System.out.println("Saving Up...");
 									//	rc.yield();
