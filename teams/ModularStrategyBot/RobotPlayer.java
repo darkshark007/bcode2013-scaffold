@@ -2,6 +2,8 @@ package ModularStrategyBot;
 
 import java.util.Random;
 
+import ModularStrategyBot.Orders.WearHat;
+import ModularStrategyBot.Orders.rOrders;
 import ModularStrategyBot.Strategies.*;
 import battlecode.common.Clock;
 import battlecode.common.Direction;
@@ -19,9 +21,6 @@ import battlecode.common.RobotType;
 public class RobotPlayer {
 	
 	static I_RobotStrategy strategy;
-	//static I_RobotStrategy strategy = PreProcessRushStrategy.getInstance();
-	//static I_RobotStrategy strategy = new NukeAndBarricadeStrategy();
-	//static I_RobotStrategy strategy = new NukeAndSealStrategy();
 	
 	public static void run(RobotController rc) throws GameActionException {
 
@@ -40,8 +39,7 @@ public class RobotPlayer {
 
 				/*
 				if ( rc.getType() == RobotType.SOLDIER ) {
-					//strategy.goTo(rc.senseEnemyHQLocation());
-					strategy.goTo(new MapLocation(49,8));
+					strategy.goTo(rc.senseEnemyHQLocation(),(new WearHat()));
 					System.out.println("RETURN!!!");
 				}
 				else if ( rc.canMove(Direction.SOUTH) ) rc.spawn(Direction.SOUTH);

@@ -214,68 +214,6 @@ public class RushAndHealStrategy extends Strategy {
 		}
 	}
 	
-	public static void takeStepTowards(MapLocation in) throws GameActionException {
-		// Check Straight
-		MapLocation myLoc = rc.getLocation();
-		Direction dirS = myLoc.directionTo(in);
-		Direction dirL = dirS.rotateLeft();
-		Direction dirLL = dirL.rotateLeft();
-		Direction dirR = dirS.rotateRight();
-		Direction dirRR = dirR.rotateRight();
-		
-		if ( rc.canMove(dirS) && rc.senseMine(myLoc.add(dirS)) == null ) {
-			rc.move(dirS);
-			return;
-		}
-		// Either there is a robot in the way, or there is a mine.
-
-		if ( rc.canMove(dirL) && rc.senseMine(myLoc.add(dirL)) == null ) {
-			rc.move(dirL);
-			return;
-		}
-		
-		if ( rc.canMove(dirR) && rc.senseMine(myLoc.add(dirR)) == null ) {
-			rc.move(dirR);
-			return;
-		}
-		
-		if ( rc.senseMine(myLoc.add(dirS)) != null ) {
-			rc.defuseMine(myLoc.add(dirS));
-			return;
-		}
-		if ( rc.senseMine(myLoc.add(dirL)) != null ) {
-			rc.defuseMine(myLoc.add(dirL));
-			return;
-		}
-		if ( rc.senseMine(myLoc.add(dirR)) != null ) {
-			rc.defuseMine(myLoc.add(dirR));
-			return;
-		}
-		
-		
-		if ( rc.canMove(dirLL) ) {
-			if ( rc.senseMine(myLoc.add(dirLL)) == null ) {
-				rc.move(dirLL);
-				return;				
-			}
-			else {
-				rc.defuseMine(myLoc.add(dirLL));
-				return;
-			}
-		}
-		if ( rc.canMove(dirRR) ) {
-			if ( rc.senseMine(myLoc.add(dirRR)) == null ) {
-				rc.move(dirRR);
-				return;				
-			}
-			else {
-				rc.defuseMine(myLoc.add(dirRR));
-				return;
-			}
-		}
-
-	}
-	
 	public PriorityQueue<MapLocationNode> getListOfEncampments() throws GameActionException {
 		
 		PriorityQueue<MapLocationNode> list = new PriorityQueue<MapLocationNode>();

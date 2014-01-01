@@ -1,0 +1,47 @@
+-- @risky <<< Heal strategy may not be viable, study
+    - No encampment between bases, nearest heal point is very far away.
+	
+-- @thingsthatcouldgowrong
+    - Spawn blocked by mines and encampments ????
+
+	
+-- FUTURE UPDATES?
+   -- Priority Distress system
+      -- Defender << Supplier << Supply/Generator Encamps << MedBay << HQ << Engage
+   -- Dynamic Medbay System
+   -- Updated transitive blocking detection
+      - Some situations which are completely viable are rejected by the algorithm
+	  - Some potential for blocking situations which are not detected by the algorithm (Map edge walls)
+	    - ** No available maps exhibit this situation, very low priority
+      - Some potential for situation where Medbay is entirely blocked by suppliers, new algorithms must still account for this and prevent this situation
+	  - Some potential for extended situations where encampments beyond the immediate vicinity of the base can still block the base (See @rapunzel), new algorithms must still account for this and prevent this situation
+   -- Possible situation where a supplier gets to the medbay location before the a med-soldier. 
+   	  - ** No available maps exhibit this situation, very low priority
+   -- Put in a detection for half-nuke completion, engage all-in-rush early
+   -- Advanced Broadcast Systems
+      -- Randomly rotating broadcast channels
+	     - Random number generator with a fixed seed
+	     - Channel for the round is the K'th random number in the seed, where k is the round number
+	     - Channel is sync'd for whole team but random and un-predictable
+	     - ** Alternatively, could use a PRE-COMPUTED list of static channel numbers, more predictable but potentially much less byte-code costly and almost as effective.
+      -- Pollute all broadcast channels
+         - Effective against bots which use a static broadcast system.
+	     - Periodically pollute all channels with random garbage to break enemy communication
+		 - Pollute all channels with static data, which can later be re-compared for changes
+		   - Detect enemy channels
+		   - Pollute those channels continuously
+      -- Combine multiple items in a checksum and/or binary priveledge fashion
+	  -- Delegate this task to a bot which was created early but is NOT the HQ.
+	     - As bots are processed in the order that they spawn in, it is ideal that enemy communication blocking occur as SOON as possible AFTER the enemy HQ processes, 
+		     which is likely to be the primary organizer of communications.
+		 - Interrupting communications as soon as possible ensures that the most enemy bots recieve faulty communication.  
+		 - Possible if friendly HQ spawns last (meaning the enemy HQ processes first) then the ideal candidate for comm. disruption IS in fact the HQ itself.
+		 - Alternatively, use some sort of rotating disruption where all bots contribute equally to affect the maximum disrupted time.
+		 - ** It may be a good idea to organize inter-bot communication through a bot spawned later in the game, to counter enemy counter-broadcasts
+		   - Possibly delegate this task to random bots??
+	  
+	  
+   -- Adaptive rotational pattern
+      - Bots orbiting around the same target, orbiting differently depending on their priority
+	    - Low health bots orbitting around a med-bay rotate inwards, higher health rotate outwards
+		
