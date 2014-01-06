@@ -5,6 +5,13 @@
     - Spawn blocked by mines and encampments ????
 
 	
+-- Future Ideas
+   -- Shield-based zerg-bot
+      - A small squad of bots charge up on shields, and then zerg over mines, past encampments, and attack the enemy base directly
+   -- Corner-To-Corner bot
+      - Break down mines sneaking along the outer edge of the map until reaching the opposite corner, then zerg down the lane attacking the enemy base.
+	  - Mine and defend the HQ until the path is opened, then engage all bots.
+	
 -- FUTURE UPDATES?
    -- Priority Distress system
       -- Defender << Supplier << Supply/Generator Encamps << MedBay << HQ << Engage
@@ -23,7 +30,16 @@
 	     - Random number generator with a fixed seed
 	     - Channel for the round is the K'th random number in the seed, where k is the round number
 	     - Channel is sync'd for whole team but random and un-predictable
-	     - ** Alternatively, could use a PRE-COMPUTED list of static channel numbers, more predictable but potentially much less byte-code costly and almost as effective.
+	     - ** Alternatively, could use a PRE-COMPUTED list of static channel numbers, more predictable but potentially much less byte-code costly and almost as effective.-
+	  -- Redundant broadcast backup
+	     - Use an alternative channel as a redundant location to store every broadcast
+		   - For example, use the channel for round 57 to store the broadcast for round 57, and the channels for round 58,59 as redundant backups for that data.
+	  -- Broadcast validity Confirmation
+	     - Add a confirmation value to the broadcast
+		   - Based on round number?
+		     - For example, a Broadcast value of 500 on turn 2037 == 203,700,500
+		   - Based on round number AND a random multiplier larger than the largest broadcast value.
+		     - For example, a broadcast value of 209 on round 957 with a multiplier of 23951 == (957*23951)+209 == 22,921,316
       -- Pollute all broadcast channels
          - Effective against bots which use a static broadcast system.
 	     - Periodically pollute all channels with random garbage to break enemy communication
@@ -44,4 +60,23 @@
    -- Adaptive rotational pattern
       - Bots orbiting around the same target, orbiting differently depending on their priority
 	    - Low health bots orbitting around a med-bay rotate inwards, higher health rotate outwards
+		
+[Tournament Scores & Ranking]
+   -- [ 0 / 54] >> team162
+   -- [ 3 / 54] >> basePlusSwarm
+   -- [ 4 / 54] >> baseShields
+   -- [ 4 / 54] >> awesomerDefusion
+   -<([27 / 54])>- [[ModularStrategyBot]]
+   -- [31 / 54] >> kiteVisionMine
+   -- [33 / 54] >> base_defense
+   -- [50 / 54] >> followleader
+   
+		
+[EFFECTIVE STRATEGIES]
+   -- Tighter swarm techniques
+      - Maybe dynamic, independent squads?
+	  - Low health bots to the back of the squad
+   -- Targetting/Intercepting enemy bots
+      - Detecting and targeting prone bots, who are busy laying a mine, defusing a mine or capturing an encampment
+   -- Mining the enemy HQ (Pickaxe)
 		

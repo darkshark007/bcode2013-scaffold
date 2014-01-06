@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 import ModularStrategyBot.Path.*;
-import ModularStrategyBot.Broadcast.*;
 import battlecode.common.Clock;
 import battlecode.common.Direction;
 import battlecode.common.GameActionException;
@@ -17,32 +16,26 @@ import battlecode.common.RobotType;
 import battlecode.common.Team;
 import battlecode.common.Upgrade;
 
-public class RushHealAndExpandStrategy extends Strategy {
+public class ___RushHealAndExpandStrategy___OLD extends Strategy {
 
-	final int BC_CONST_ORDERS_ID = 0;
-	final int BC_CONST_ORDERS_X = 1;
-	final int BC_CONST_ORDERS_Y = 2;
-	final int BC_CONST_HEALIN_X = 3;
-	final int BC_CONST_HEALIN_Y = 4;
-	final int BC_CONST_DISTRESS_X = 5;
-	final int BC_CONST_DISTRESS_Y = 6;
-	final int BC_CONST_DISTRESS_RND = 7;
-	final int BC_CONST_COUNT_DEF = 8;
-	final int BC_CONST_COUNT_GEN = 9;
-	final int BC_CONST_COUNT_MED = 10;
-	
-	static I_Broadcast bc;
-	
+	final int BC_CONST_ORDERS_ID = 7861;
+	final int BC_CONST_ORDERS_X = 42590;
+	final int BC_CONST_ORDERS_Y = 45900;
+	final int BC_CONST_HEALIN_X = 7815;
+	final int BC_CONST_HEALIN_Y = 7816;
+
+	final int BC_CONST_DISTRESS_X = 23597;
+	final int BC_CONST_DISTRESS_Y = 25970;
+	final int BC_CONST_DISTRESS_RND = 25971;
 	final int C_DIST_RESPONSE_LEN = 20;
 	final int C_DIST_CLEAR_LEN = 10;
 	
+	final int BC_CONST_COUNT_DEF = 865;
+	final int BC_CONST_COUNT_GEN = 8650;
+	final int BC_CONST_COUNT_MED = 3697;
 	static TailPath tp;
 	
-	public RushHealAndExpandStrategy(RobotController in) {
-		super(in);
-		//bc = new LimChan_RandD_wRedundancy_wValid(rc); // Secure channels
-		bc = new Broadcast(rc);
-	}
+	public ___RushHealAndExpandStrategy___OLD(RobotController in) { super(in); }
 
 	public void run() {
 		double myHealth = rc.getEnergon();
@@ -109,20 +102,20 @@ public class RushHealAndExpandStrategy extends Strategy {
 				nullDist = findEncampmentClosestTo(nullDist);
 				
 				// Null the distress broadcasts
-				bc.broadcast(BC_CONST_DISTRESS_X, nullDist.x);
-				bc.broadcast(BC_CONST_DISTRESS_Y, nullDist.y);							
-				bc.broadcast(BC_CONST_HEALIN_X, nullDist.x);
-				bc.broadcast(BC_CONST_HEALIN_Y, nullDist.y);							
+				rc.broadcast(BC_CONST_DISTRESS_X, nullDist.x);
+				rc.broadcast(BC_CONST_DISTRESS_Y, nullDist.y);							
+				rc.broadcast(BC_CONST_HEALIN_X, nullDist.x);
+				rc.broadcast(BC_CONST_HEALIN_Y, nullDist.y);							
 
 				// Spawn the first bot to create a med bay
-				bc.broadcast(BC_CONST_ORDERS_ID, 3);
+				rc.broadcast(BC_CONST_ORDERS_ID, 3);
 				if ( !rc.isActive() ) rc.yield();
 				if ( rc.canMove(dir) ) rc.spawn(dir);
 				
 				rc.yield();
 				
 				// Spawn 3 guards to protect the shield
-				//bc.broadcast(BC_CONST_ORDERS_ID, 2);
+				//rc.broadcast(BC_CONST_ORDERS_ID, 2);
 				for ( int i = 0; i < 5; i++) {
 					System.out.println("Spawning Guards...");
 					while ( !rc.isActive() || !rc.canMove(dir)) rc.yield();
@@ -135,11 +128,11 @@ public class RushHealAndExpandStrategy extends Strategy {
 				while ( true ) { 
 				
 					// Engage attack mode
-					if ( ( listOfEncampments.size() == 0 || Clock.getRoundNum() > 2000 ) && bc.readBroadcast(BC_CONST_COUNT_DEF) > bc.readBroadcast(BC_CONST_COUNT_GEN)*1.0) {
+					if ( ( listOfEncampments.size() == 0 || Clock.getRoundNum() > 2000 ) && rc.readBroadcast(BC_CONST_COUNT_DEF) > rc.readBroadcast(BC_CONST_COUNT_GEN)*1.0) {
 						System.out.println("ENTER ATTACK MODE");
-						bc.broadcast(BC_CONST_DISTRESS_RND, 9999);
-						bc.broadcast(BC_CONST_DISTRESS_X, rc.senseEnemyHQLocation().x);
-						bc.broadcast(BC_CONST_DISTRESS_Y, rc.senseEnemyHQLocation().y);
+						rc.broadcast(BC_CONST_DISTRESS_RND, 9999);
+						rc.broadcast(BC_CONST_DISTRESS_X, rc.senseEnemyHQLocation().x);
+						rc.broadcast(BC_CONST_DISTRESS_Y, rc.senseEnemyHQLocation().y);
 					}
 
 					if ( rc.isActive() ) {
@@ -148,24 +141,24 @@ public class RushHealAndExpandStrategy extends Strategy {
 						// 2 == Defender
 						// 3 == Medbay
 
-						System.out.println(bc.readBroadcast(BC_CONST_COUNT_GEN)+" > "+bc.readBroadcast(BC_CONST_COUNT_DEF));
+						System.out.println(rc.readBroadcast(BC_CONST_COUNT_GEN)+" > "+rc.readBroadcast(BC_CONST_COUNT_DEF));
 						
-						if ( bc.readBroadcast(BC_CONST_COUNT_MED) == 0 ) {
-							bc.broadcast(BC_CONST_ORDERS_ID, 3);
+						if ( rc.readBroadcast(BC_CONST_COUNT_MED) == 0 ) {
+							rc.broadcast(BC_CONST_ORDERS_ID, 3);
 						}
-						else if ( bc.readBroadcast(BC_CONST_COUNT_GEN) > bc.readBroadcast(BC_CONST_COUNT_DEF) || listOfEncampments.size() == 0 ) {
+						else if ( rc.readBroadcast(BC_CONST_COUNT_GEN) > rc.readBroadcast(BC_CONST_COUNT_DEF) || listOfEncampments.size() == 0 ) {
 							//System.out.println("IF");
-							bc.broadcast(BC_CONST_ORDERS_ID, 2);
+							rc.broadcast(BC_CONST_ORDERS_ID, 2);
 						}
 						else {
 							//System.out.println("ELSE");
-							bc.broadcast(BC_CONST_ORDERS_ID, 1);
+							rc.broadcast(BC_CONST_ORDERS_ID, 1);
 							
 							// Set a target encampment
 							if ( listOfEncampments.size() > 0 ) {
 								nextEncampment = listOfEncampments.remove().data;
-								bc.broadcast(BC_CONST_ORDERS_X, nextEncampment.x);
-								bc.broadcast(BC_CONST_ORDERS_Y, nextEncampment.y);
+								rc.broadcast(BC_CONST_ORDERS_X, nextEncampment.x);
+								rc.broadcast(BC_CONST_ORDERS_Y, nextEncampment.y);
 								System.out.println("Sending next bot to "+nextEncampment.x+","+nextEncampment.y);
 							}
 							
@@ -182,17 +175,17 @@ public class RushHealAndExpandStrategy extends Strategy {
 							if ( rc.canMove(tempDir) ) rc.spawn(tempDir);
 						}
 					}
-					bc.broadcast(BC_CONST_COUNT_GEN,0);
-					bc.broadcast(BC_CONST_COUNT_DEF,0);
-					bc.broadcast(BC_CONST_COUNT_MED,0);
+					rc.broadcast(BC_CONST_COUNT_GEN,0);
+					rc.broadcast(BC_CONST_COUNT_DEF,0);
+					rc.broadcast(BC_CONST_COUNT_MED,0);
 					
 					// Send distress call
 					checkDistressCall(myHealth);
 					myHealth = rc.getEnergon();
 					
-					if ( bc.readBroadcast(BC_CONST_DISTRESS_RND)+C_DIST_CLEAR_LEN < Clock.getRoundNum() ) {
-						bc.broadcast(BC_CONST_DISTRESS_X, nullDist.x);
-						bc.broadcast(BC_CONST_DISTRESS_Y, nullDist.y);	
+					if ( rc.readBroadcast(BC_CONST_DISTRESS_RND)+C_DIST_CLEAR_LEN < Clock.getRoundNum() ) {
+						rc.broadcast(BC_CONST_DISTRESS_X, nullDist.x);
+						rc.broadcast(BC_CONST_DISTRESS_Y, nullDist.y);	
 					}
 
 					rc.yield();
@@ -201,14 +194,14 @@ public class RushHealAndExpandStrategy extends Strategy {
 			case SOLDIER:
 				// Get my orders
 				MapLocation myTarget,myHealingTarget = null;
-				int myOrders = bc.readBroadcast(BC_CONST_ORDERS_ID);
-				System.out.println("My Orders: "+myOrders+"\tSp: ("+rc.getLocation().x+","+rc.getLocation().y+")\tO: ("+bc.readBroadcast(BC_CONST_ORDERS_X)+","+bc.readBroadcast(BC_CONST_ORDERS_Y)+")\tD: ("+bc.readBroadcast(BC_CONST_DISTRESS_X)+","+bc.readBroadcast(BC_CONST_DISTRESS_Y)+")");
+				int myOrders = rc.readBroadcast(BC_CONST_ORDERS_ID);
+				System.out.println("My Orders: "+myOrders+"\tSp: ("+rc.getLocation().x+","+rc.getLocation().y+")\tO: ("+rc.readBroadcast(BC_CONST_ORDERS_X)+","+rc.readBroadcast(BC_CONST_ORDERS_Y)+")\tD: ("+rc.readBroadcast(BC_CONST_DISTRESS_X)+","+rc.readBroadcast(BC_CONST_DISTRESS_Y)+")");
 				
 				switch (myOrders) {
 				case 1: // Supplier & Generator
 					int myClosestDistance = 9999;
 					int myClosestDistance_Timer = 26;
-					myTarget = new MapLocation(bc.readBroadcast(BC_CONST_ORDERS_X),bc.readBroadcast(BC_CONST_ORDERS_Y));
+					myTarget = new MapLocation(rc.readBroadcast(BC_CONST_ORDERS_X),rc.readBroadcast(BC_CONST_ORDERS_Y));
 					rc.setIndicatorString(0, "Supplier -> "+myTarget.x+","+myTarget.y);
 					while ( true ) {
 						myLoc = rc.getLocation(); 
@@ -221,7 +214,7 @@ public class RushHealAndExpandStrategy extends Strategy {
 						else { 
 							myClosestDistance_Timer--;
 							rc.setIndicatorString(1, "Time till Conversion: "+myClosestDistance_Timer);
-							if ( myHealingTarget == null ) if ( bc.readBroadcast(BC_CONST_ORDERS_ID) == 2) myHealingTarget = new MapLocation(bc.readBroadcast(BC_CONST_ORDERS_X),bc.readBroadcast(BC_CONST_ORDERS_Y));
+							if ( myHealingTarget == null ) if ( rc.readBroadcast(BC_CONST_ORDERS_ID) == 2) myHealingTarget = new MapLocation(rc.readBroadcast(BC_CONST_ORDERS_X),rc.readBroadcast(BC_CONST_ORDERS_Y));
 							if ( myClosestDistance_Timer == 0 ) {
 								myOrders = 2;
 								System.out.println("Converting to a Defender because i cannot reach my target");
@@ -230,7 +223,7 @@ public class RushHealAndExpandStrategy extends Strategy {
 						}
 						
 						// Broadcast my counter
-						bc.broadcast(BC_CONST_COUNT_GEN, bc.readBroadcast(BC_CONST_COUNT_GEN)+1);
+						rc.broadcast(BC_CONST_COUNT_GEN, rc.readBroadcast(BC_CONST_COUNT_GEN)+1);
 						if ( rc.isActive() ) {
 							
 							
@@ -250,7 +243,7 @@ public class RushHealAndExpandStrategy extends Strategy {
 								}
 								System.out.println("<< Transitive Alg: "+Clock.getRoundNum()+","+Clock.getBytecodeNum());
 								
-								int resSave = (bc.readBroadcast(BC_CONST_COUNT_DEF)+bc.readBroadcast(BC_CONST_COUNT_GEN))*3;
+								int resSave = (rc.readBroadcast(BC_CONST_COUNT_DEF)+rc.readBroadcast(BC_CONST_COUNT_GEN))*3;
 								if ( (rc.getTeamPower()-(Clock.getRoundNum()*7)) > (rc.senseCaptureCost()+resSave)*1.5 ) {
 									while ( (rc.senseCaptureCost()+resSave) > rc.getTeamPower() ) rc.yield();
 									rc.captureEncampment(RobotType.SUPPLIER);
@@ -280,7 +273,7 @@ public class RushHealAndExpandStrategy extends Strategy {
 					if ( myOrders == 3 ) {
 						myClosestDistance = 9999;
 						myClosestDistance_Timer = 26;
-						myTarget = new MapLocation(bc.readBroadcast(BC_CONST_HEALIN_X),bc.readBroadcast(BC_CONST_HEALIN_Y));
+						myTarget = new MapLocation(rc.readBroadcast(BC_CONST_HEALIN_X),rc.readBroadcast(BC_CONST_HEALIN_Y));
 						rc.setIndicatorString(0, "Shield -> "+myTarget.x+","+myTarget.y);
 						while ( true ) {
 							myLoc = rc.getLocation(); 
@@ -301,9 +294,9 @@ public class RushHealAndExpandStrategy extends Strategy {
 
 							
 							
-							bc.broadcast(BC_CONST_COUNT_DEF, bc.readBroadcast(BC_CONST_COUNT_DEF)+2);
-							bc.broadcast(BC_CONST_COUNT_GEN, bc.readBroadcast(BC_CONST_COUNT_GEN)+1);
-							bc.broadcast(BC_CONST_COUNT_MED, bc.readBroadcast(BC_CONST_COUNT_MED)+1);
+							rc.broadcast(BC_CONST_COUNT_DEF, rc.readBroadcast(BC_CONST_COUNT_DEF)+2);
+							rc.broadcast(BC_CONST_COUNT_GEN, rc.readBroadcast(BC_CONST_COUNT_GEN)+1);
+							rc.broadcast(BC_CONST_COUNT_MED, rc.readBroadcast(BC_CONST_COUNT_MED)+1);
 							if ( rc.isActive() ) {
 								
 								
@@ -311,7 +304,7 @@ public class RushHealAndExpandStrategy extends Strategy {
 								// Check to see if i'm at my target
 								if ( myLoc.equals(myTarget) ) {
 									// If so, build
-									//int resSave = (bc.readBroadcast(BC_CONST_COUNT_DEF)+bc.readBroadcast(BC_CONST_COUNT_GEN))*3;
+									//int resSave = (rc.readBroadcast(BC_CONST_COUNT_DEF)+rc.readBroadcast(BC_CONST_COUNT_GEN))*3;
 									//while ( (rc.senseCaptureCost()+resSave) > rc.getTeamPower() ) {
 									//	System.out.println("Saving Up...");
 									//	rc.yield();
@@ -336,11 +329,11 @@ public class RushHealAndExpandStrategy extends Strategy {
 				case 2: // Defender
 						rc.setIndicatorString(0, "Defender");
 						boolean healing = false;
-						myHealingTarget = new MapLocation(bc.readBroadcast(BC_CONST_HEALIN_X),bc.readBroadcast(BC_CONST_HEALIN_Y));
+						myHealingTarget = new MapLocation(rc.readBroadcast(BC_CONST_HEALIN_X),rc.readBroadcast(BC_CONST_HEALIN_Y));
 						int targetCounter = 0;
 						myTarget = null;
 						while ( true ) {
-							bc.broadcast(BC_CONST_COUNT_DEF, bc.readBroadcast(BC_CONST_COUNT_DEF)+2);
+							rc.broadcast(BC_CONST_COUNT_DEF, rc.readBroadcast(BC_CONST_COUNT_DEF)+2);
 							if ( rc.isActive() ) {
 								myLoc = rc.getLocation();
 								
@@ -353,7 +346,7 @@ public class RushHealAndExpandStrategy extends Strategy {
 								else {
 									if ( healing ) {
 										System.out.println(">> Def -- I am hanging out around the med bay, healing!");
-										if ( rc.getEnergon() > 30.0 ) healing = false;
+										if ( rc.getEnergon() > 36.0 ) healing = false;
 										else {
 											if ( myLoc.equals(myHealingTarget) ) takeStepTowards(rc.senseHQLocation()); 
 											else takeStepTowards(myHealingTarget);
@@ -363,7 +356,7 @@ public class RushHealAndExpandStrategy extends Strategy {
 										// Check for new t
 										if ( targetCounter == 0) {
 											// Check for distress calls
-											myTarget = new MapLocation( bc.readBroadcast(BC_CONST_DISTRESS_X), bc.readBroadcast(BC_CONST_DISTRESS_Y) );
+											myTarget = new MapLocation( rc.readBroadcast(BC_CONST_DISTRESS_X), rc.readBroadcast(BC_CONST_DISTRESS_Y) );
 											if ( !myTarget.equals(myHealingTarget) ) {
 												targetCounter = C_DIST_RESPONSE_LEN;
 											}
@@ -373,10 +366,6 @@ public class RushHealAndExpandStrategy extends Strategy {
 											System.out.println(">> Def -- I am stopped due to health loss!");
 											myHealth = rc.getEnergon();
 											// Stop moving
-											
-											// Instead, take a step towards the healing target to try to prolong my life
-											//healing = true;
-											takeStepTowards(myHealingTarget);
 										}
 										else {
 											if ( targetCounter > 0 ) {
@@ -417,8 +406,8 @@ public class RushHealAndExpandStrategy extends Strategy {
 			case GENERATOR:
 				while ( true ) {
 					if ( rc.isActive() ) {
-						//System.out.println("Count: "+bc.readBroadcast(BC_CONST_COUNT_GEN));
-						bc.broadcast(BC_CONST_COUNT_GEN, bc.readBroadcast(BC_CONST_COUNT_GEN)+2);
+						//System.out.println("Count: "+rc.readBroadcast(BC_CONST_COUNT_GEN));
+						rc.broadcast(BC_CONST_COUNT_GEN, rc.readBroadcast(BC_CONST_COUNT_GEN)+2);
 						
 					}
 					checkDistressCall(myHealth);
@@ -428,7 +417,7 @@ public class RushHealAndExpandStrategy extends Strategy {
 
 			case MEDBAY:
 				while ( true ) {
-					bc.broadcast(BC_CONST_COUNT_MED, bc.readBroadcast(BC_CONST_COUNT_MED)+1);
+					rc.broadcast(BC_CONST_COUNT_MED, rc.readBroadcast(BC_CONST_COUNT_MED)+1);
 					if ( rc.isActive() ) {
 					}
 					// Send distress call
@@ -450,8 +439,8 @@ public class RushHealAndExpandStrategy extends Strategy {
 			case SUPPLIER:
 				while ( true ) {
 					if ( rc.isActive() ) {
-						//System.out.println("Count: "+bc.readBroadcast(BC_CONST_COUNT_GEN));
-						bc.broadcast(BC_CONST_COUNT_GEN, bc.readBroadcast(BC_CONST_COUNT_GEN)+2);
+						//System.out.println("Count: "+rc.readBroadcast(BC_CONST_COUNT_GEN));
+						rc.broadcast(BC_CONST_COUNT_GEN, rc.readBroadcast(BC_CONST_COUNT_GEN)+2);
 						
 					}
 					checkDistressCall(myHealth);
@@ -527,11 +516,11 @@ public class RushHealAndExpandStrategy extends Strategy {
 	public void checkDistressCall(double Old) throws GameActionException {
 		double New = rc.getEnergon();
 		if ( New < Old && (Old-New) > 5.0  ) {
-			if ( Clock.getRoundNum() >= (bc.readBroadcast(BC_CONST_DISTRESS_RND)+C_DIST_CLEAR_LEN) || rc.getType() == RobotType.HQ || rc.getType() == RobotType.SHIELDS ) {
+			if ( Clock.getRoundNum() >= (rc.readBroadcast(BC_CONST_DISTRESS_RND)+C_DIST_CLEAR_LEN) || rc.getType() == RobotType.HQ || rc.getType() == RobotType.SHIELDS ) {
 				MapLocation myLoc = rc.getLocation();			
-				bc.broadcast(BC_CONST_DISTRESS_RND, Clock.getRoundNum());
-				bc.broadcast(BC_CONST_DISTRESS_X, myLoc.x);
-				bc.broadcast(BC_CONST_DISTRESS_Y, myLoc.y);				
+				rc.broadcast(BC_CONST_DISTRESS_RND, Clock.getRoundNum());
+				rc.broadcast(BC_CONST_DISTRESS_X, myLoc.x);
+				rc.broadcast(BC_CONST_DISTRESS_Y, myLoc.y);				
 			}
 		}		
 	}

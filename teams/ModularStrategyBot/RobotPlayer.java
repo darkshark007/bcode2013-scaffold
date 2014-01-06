@@ -3,7 +3,7 @@ package ModularStrategyBot;
 import java.util.Random;
 
 import ModularStrategyBot.Orders.WearHat;
-import ModularStrategyBot.Orders.rOrders;
+import ModularStrategyBot.Orders.I_Orders;
 import ModularStrategyBot.Strategies.*;
 import battlecode.common.Clock;
 import battlecode.common.Direction;
@@ -28,9 +28,13 @@ public class RobotPlayer {
 		//strategy = new RushStrategy(rc);
 		//strategy = new ExploreAndExpandStrategy(rc);
 		//strategy = new RushAndHealStrategy(rc);
-		strategy = new RushHealAndExpandStrategy(rc);
 		//strategy = new NukeAndBarricadeStrategy(rc);
 		//strategy = new NukeAndSealStrategy(rc);
+
+		
+		
+		//strategy = new ___RushHealAndExpandStrategy___OLD(rc);		
+		strategy = new RushHealAndExpandStrategy(rc);
 
 		
 		while (true) {

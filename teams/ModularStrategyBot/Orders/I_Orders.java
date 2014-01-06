@@ -8,7 +8,7 @@ import battlecode.common.RobotController;
  * @author Stephen Bush
  *
  */
-public interface rOrders {
+public interface I_Orders {
 	
 	public void executeOrders(RobotController in);
 

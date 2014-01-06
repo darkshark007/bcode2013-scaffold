@@ -1,6 +1,6 @@
 package ModularStrategyBot.Strategies;
 
-import ModularStrategyBot.Orders.rOrders;
+import ModularStrategyBot.Orders.I_Orders;
 import ModularStrategyBot.Path.Path;
 import battlecode.common.GameActionException;
 import battlecode.common.MapLocation;
@@ -168,7 +168,7 @@ public abstract class Strategy implements I_RobotStrategy {
 	
 	
 	public void goTo(MapLocation in) throws GameActionException { goTo(in,null); }
-	public void goTo(MapLocation in,rOrders orders) throws GameActionException {
+	public void goTo(MapLocation in,I_Orders orders) throws GameActionException {
 		while ( !rc.getLocation().equals(in) ) {
 			if ( orders != null ) orders.executeOrders(rc);
 			if ( rc.isActive() ) takeStepTowards(in);

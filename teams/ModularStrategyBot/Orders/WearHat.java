@@ -4,7 +4,7 @@ import battlecode.common.Clock;
 import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
 
-public class WearHat implements rOrders {
+public class WearHat implements I_Orders {
 	
 	boolean isWearingHat = false;
 
